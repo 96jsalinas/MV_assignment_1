@@ -8,8 +8,12 @@ pca_data <- clean_data %>%
     Life.expectancy, Adult.Mortality, thinness,
     under.five.deaths, GDP, Population)
 
-#Check correlation of data
+#Check correlation of data and covariance matrix
 cor(pca_data)
+#Variations in population and GDP are very high, as expected based on the magnitude
+#In the PCA we are using "scale. = TRUE" so it won't have an impact
+round(cov(pca_data))
+
 #Perform Scaled PCA
 pca <- prcomp(pca_data, scale. = TRUE)
 pca_named <- get_pca_var(pca)

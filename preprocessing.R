@@ -134,6 +134,18 @@ ggplot(clean_data, aes(x = HDICat, fill = HDICat)) +
 #We will remove columns that we transformed
 clean_data <- clean_data %>% select(-Polio, -Schooling, -Status, -Income.composition.of.resources, -na_count, -thinness..1.19.years, -thinness.5.9.years)
 
-#PCA
-
-
+#Summarize Quantitative columns (will be used in PCA)
+quant_columns <- c("Life.expectancy", "Adult.Mortality", "thinness", 
+                      "under.five.deaths", "GDP", "Population")
+summary_table <- clean_data %>%
+  select(all_of(quant_columns)) %>%
+  pivot_longer(cols = everything(), names_to = "Variable", values_to = "Value") %>%
+  group_by(Variable) %>%
+  summarise(
+    Min = min(Value, na.rm = TRUE),
+    Max = max(Value, na.rm = TRUE),
+    Median = median(Value, na.rm = TRUE),
+    Mean = mean(Value, na.rm = TRUE),
+    SD = sd(Value, na.rm = TRUE)
+  )
+print(summary_table)
