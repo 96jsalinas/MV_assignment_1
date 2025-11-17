@@ -12,19 +12,26 @@ raw_data <- raw_data %>% filter(Year==2015) %>%
 
 #Dropping columns that won't be used in analysis
 cols_to_drop <- c("Year", "Alcohol", "Hepatitis.B", "Measles", "BMI",
-                  "Total.expenditure", "Diphtheria", "HIV.AIDS", "thinness..1.19.years",
-                  "thinness.5.9.years", "na_count", "percentage.expenditure"
+                  "Total.expenditure", "Diphtheria", "HIV.AIDS",
+                  "na_count", "percentage.expenditure", "infant.deaths"
 )
-
 clean_data <- raw_data %>%
   filter(Population >= 100000) %>% #Filtering out small countries
   select(-all_of(cols_to_drop)) %>% mutate(na_count = rowSums(is.na(.))) #To check for columns with NA values
 
-#Removing countries that don't have a GDP
+#Removing countries that don't have a GDP or Thinness data
 clean_data <- clean_data %>% filter(Country != "Papua New Guinea") %>% filter(Country != "Syrian Arab Republic")
+clean_data <- clean_data %>% filter(Country != "Sudan") %>% filter(Country != "South Sudan")
 
 #Check for NAs
-colSums(is.na(clean_data)) 
+colSums(is.na(clean_data))
+
+#We will combine Thinness data in a single variable
+clean_data <- clean_data %>% 
+  mutate(
+    thinness = (thinness..1.19.years + thinness.5.9.years) / 2
+  )
+hist(clean_data$thinness, breaks = 50, main = "Distribution of Polio", xlab = "Polio immunization coverage among 1-year-olds (%)")
 
 #We will look at Polio to turn it into a binary
 #Polio := Polio (Pol3) immunization coverage among 1-year-olds (%) 
@@ -124,4 +131,8 @@ ggplot(clean_data, aes(x = HDICat, fill = HDICat)) +
   theme_minimal()
 
 #We will remove columns that we transformed
-clean_data <- clean_data %>% select(-Polio, -Schooling, -Status, -Income.composition.of.resources, -na_count)
+clean_data <- clean_data %>% select(-Polio, -Schooling, -Status, -Income.composition.of.resources, -na_count, -thinness..1.19.years, -thinness.5.9.years)
+
+#PCA
+
+
