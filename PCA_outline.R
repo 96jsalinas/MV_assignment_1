@@ -12,6 +12,7 @@ pca_data <- clean_data %>%
 cor(pca_data)
 #Perform Scaled PCA
 pca <- prcomp(pca_data, scale. = TRUE)
+pca_named <- get_pca_var(pca)
 summary(pca)
 
 #Checking Eigenvalues for Kaiser criterion
@@ -71,6 +72,8 @@ pca_scores
 #Selecting PC1 and PC2
 data_with_scores <- cbind(clean_data, pca_scores[, 1:2])
 
+#Variable contributions to PCA
+pca_named$contrib
 #Contribution of variables to PC1
 fviz_contrib(pca, choice = "var", axes = 1)
 #Contribution of variables to PC2

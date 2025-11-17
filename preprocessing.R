@@ -47,7 +47,7 @@ legend("topright", legend = c("Mean", "Median"),
        col = c("red", "blue"), lwd = 2, lty = c(1, 2))
 
 #We can see that the mean is around 80%, which coincides with the 80% threshold that WHO sets for herd immunity
-#https://www.who.int/news-room/questions-and-answers/item/herd-immunity-lockdowns-and-covid-19/#:~:text=polio
+#https://www.who.int/news-room/questions-and-answers/item/herd-immunity-lockdowns-and-covid-19/#:~:text=for%20Polio,%20the%20threshold%20is%20about%2080
 
 clean_data$Polio_binary <- ifelse(clean_data$Polio > 80, 1, 0)
 #Resulting distribution
