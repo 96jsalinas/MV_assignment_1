@@ -1,3 +1,4 @@
+rm(list=ls())
 library(tidyverse)
 library(dplyr)
 library(dplyr)
@@ -26,12 +27,12 @@ clean_data <- clean_data %>% filter(Country != "Sudan") %>% filter(Country != "S
 #Check for NAs
 colSums(is.na(clean_data))
 
-#We will combine Thinness data in a single variable
+#We will combine Thinness data in a single variable by using a simple mean
 clean_data <- clean_data %>% 
   mutate(
     thinness = (thinness..1.19.years + thinness.5.9.years) / 2
   )
-hist(clean_data$thinness, breaks = 50, main = "Distribution of Polio", xlab = "Polio immunization coverage among 1-year-olds (%)")
+hist(clean_data$thinness, breaks = 50, main = "Distribution of Thinness", xlab = "Simple mean of thinness ages 5-9 and 10-19")
 
 #We will look at Polio to turn it into a binary
 #Polio := Polio (Pol3) immunization coverage among 1-year-olds (%) 
