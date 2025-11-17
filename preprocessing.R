@@ -41,8 +41,8 @@ median_val <- median(clean_data$Polio, na.rm = TRUE)
 
 hist(clean_data$Polio, breaks = 50, main = "Distribution of Polio", xlab = "Polio immunization coverage among 1-year-olds (%)")
 
-abline(v = mean_val, col = "red", lwd = 2)              # Mean in Red
-abline(v = median_val, col = "blue", lwd = 2, lty = 2)  # Median in Blue (dashed)
+abline(v = mean_val, col = "red", lwd = 2)              #Mean in Red
+abline(v = median_val, col = "blue", lwd = 2, lty = 2)  #Median in Blue (dashed)
 legend("topright", legend = c("Mean", "Median"), 
        col = c("red", "blue"), lwd = 2, lty = c(1, 2))
 
@@ -83,8 +83,8 @@ median_val <- median(clean_data$Schooling, na.rm = TRUE)
 
 hist(clean_data$Schooling, breaks = 50, main = "Distribution of Schooling", xlab = "Schooling")
 
-abline(v = mean_val, col = "red", lwd = 2)              # Mean in Red
-abline(v = median_val, col = "blue", lwd = 2, lty = 2)  # Median in Blue (dashed)
+abline(v = mean_val, col = "red", lwd = 2)              #Mean in Red
+abline(v = median_val, col = "blue", lwd = 2, lty = 2)  #Median in Blue (dashed)
 legend("topright", legend = c("Mean", "Median"), 
        col = c("red", "blue"), lwd = 2, lty = c(1, 2))
 max(clean_data$Schooling) #20.4

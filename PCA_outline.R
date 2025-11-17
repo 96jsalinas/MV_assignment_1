@@ -1,22 +1,31 @@
 library(dplyr)
 library(factoextra)
 source("preprocessing.R")
+
+#Select just quantitative variables 
 pca_data <- clean_data %>%
   select(
     Life.expectancy, Adult.Mortality, thinness,
     under.five.deaths, GDP, Population)
 
+#Check correlation of data
 cor(pca_data)
+#Perform Scaled PCA
 pca <- prcomp(pca_data, scale. = TRUE)
-
 summary(pca)
-#Checking variation
+
+#Checking Eigenvalues for Kaiser criterion
 pca$sdev^2
 
+#Scree plot
 fviz_eig(pca, addlabels = TRUE)
 
+#Based on Eigenvalues > 1 and Scree we choose the first 2 components
+
+#Variable correlation circle (loadings plot)
 fviz_pca_var(pca, repel = TRUE)
 
+#PCA in relation to Development Status
 fviz_pca_ind(
   pca,
   label = "none",
@@ -25,6 +34,7 @@ fviz_pca_ind(
   repel = TRUE
 )
 
+#PCA in relation to Polio
 fviz_pca_ind(
   pca,
   label = "none",
@@ -33,6 +43,7 @@ fviz_pca_ind(
   repel = TRUE
 )
 
+#PCA in relation to Schooling
 fviz_pca_ind(
   pca,
   label = "none",
@@ -41,6 +52,7 @@ fviz_pca_ind(
   repel = TRUE
 )
 
+#PCA in relation to HDI
 fviz_pca_ind(
   pca,
   label = "none",
@@ -49,23 +61,20 @@ fviz_pca_ind(
   repel = TRUE
 )
 
-pca_loadings <- pca$rotation    # variable loadings
+#Loadings of features on each component
+pca_loadings <- pca$rotation    
 pca_loadings
-pca_scores   <- pca$x           # coordinates of countries
+#Scores of each country for each component
+pca_scores   <- pca$x         
 pca_scores
 
-data_with_scores <- cbind(clean_data, pca_scores[, 1:2])  # add PC1 & PC2
+#Selecting PC1 and PC2
+data_with_scores <- cbind(clean_data, pca_scores[, 1:2])
 
+#Contribution of variables to PC1
 fviz_contrib(pca, choice = "var", axes = 1)
+#Contribution of variables to PC2
 fviz_contrib(pca, choice = "var", axes = 2)
 
-fviz_pca_biplot(pca, repel = TRUE)
-
+#X/Y shows representation in PC1 v. PC2 and gradient represents quality of representation
 fviz_pca_var(pca, col.var = "cos2", gradient.cols = c("red", "yellow", "green"))
-
-fviz_pca_ind(pca, col.ind = "cos2", gradient.cols = c("red", "yellow", "green"))
-
-fviz_contrib(pca, choice = "var", axes = 1:3)
-
-
-
