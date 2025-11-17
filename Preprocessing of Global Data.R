@@ -1,7 +1,7 @@
 library(tidyverse)
 library(dplyr)
 
-raw <- read.csv("C:/Users/eoinp/OneDrive/Documents/Multivariate Analysis/country_data.csv", header = TRUE, sep = ",")
+raw <- read.csv("country_data.csv", header = TRUE, sep = ",")
 
 raw <- raw %>%
   select(name, region, population, everything())
