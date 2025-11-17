@@ -1,7 +1,10 @@
 rm(list=ls())
 library(tidyverse)
 library(dplyr)
-library(dplyr)
+library("GGally")
+library(factoextra)
+library(ggplot2)
+library(tidyr)
 
 raw_data <- read.csv("Life Expectancy Data.csv", header = TRUE, sep = ",")
 
@@ -149,3 +152,4 @@ summary_table <- clean_data %>%
     SD = sd(Value, na.rm = TRUE)
   )
 print(summary_table)
+ggpairs(clean_data %>% select(all_of(quant_columns)))
