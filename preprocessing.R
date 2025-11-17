@@ -47,7 +47,7 @@ legend("topright", legend = c("Mean", "Median"),
        col = c("red", "blue"), lwd = 2, lty = c(1, 2))
 
 #We can see that the mean is around 80%, which coincides with the 80% threshold that WHO sets for herd immunity
-#https://www.who.int/news-room/questions-and-answers/item/herd-immunity-lockdowns-and-covid-19
+#https://www.who.int/news-room/questions-and-answers/item/herd-immunity-lockdowns-and-covid-19/#:~:text=polio
 
 clean_data$Polio_binary <- ifelse(clean_data$Polio > 80, 1, 0)
 #Resulting distribution
@@ -110,7 +110,7 @@ ggplot(clean_data, aes(x = schooling_1to5, fill = schooling_1to5)) +
   theme_minimal()
 
 #We will categorize the HDI column into the official categories
-#https://hdr.undp.org/reports-and-publications/2020-human-development-report/data-readers-guide
+#https://hdr.undp.org/reports-and-publications/2020-human-development-report/data-readers-guide#:~:text=Human%20development%20classification
 hist(clean_data$Income.composition.of.resources, breaks = 50, main = "Distribution of HDI", xlab = "BMI")
 clean_data <- clean_data %>%
   mutate(
