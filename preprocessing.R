@@ -171,7 +171,7 @@ hist(
   clean_data$Income.composition.of.resources,
   breaks = 50,
   main = "Distribution of HDI",
-  xlab = "BMI",
+  xlab = "HDI",
   col = "lightblue",
   border = "white"
 )
