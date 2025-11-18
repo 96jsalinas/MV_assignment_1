@@ -35,14 +35,28 @@ clean_data <- clean_data %>%
   mutate(
     thinness = (thinness..1.19.years + thinness.5.9.years) / 2
   )
-hist(clean_data$thinness, breaks = 50, main = "Distribution of Thinness", xlab = "Simple mean of thinness ages 5-9 and 10-19")
+hist(
+  clean_data$thinness,
+  breaks = 50,
+  main = "Distribution of Thinness",
+  xlab = "Simple mean of thinness ages 5-9 and 10-19",
+  col = "lightblue",
+  border = "white"
+)
 
 #We will look at Polio to turn it into a binary
 #Polio := Polio (Pol3) immunization coverage among 1-year-olds (%) 
 mean_val <- mean(clean_data$Polio, na.rm = TRUE)
 median_val <- median(clean_data$Polio, na.rm = TRUE)
 
-hist(clean_data$Polio, breaks = 50, main = "Distribution of Polio", xlab = "Polio immunization coverage among 1-year-olds (%)")
+hist(
+  clean_data$Polio,
+  breaks = 50,
+  main = "Distribution of Polio",
+  xlab = "Polio immunization coverage among 1-year-olds (%)",
+  col = "lightblue",
+  border = "white"
+)
 
 abline(v = mean_val, col = "red", lwd = 2)              #Mean in Red
 abline(v = median_val, col = "blue", lwd = 2, lty = 2)  #Median in Blue (dashed)
@@ -84,7 +98,14 @@ ggplot(clean_data, aes(x = factor(Status_binary), fill = factor(Status_binary)))
 mean_val <- mean(clean_data$Schooling, na.rm = TRUE)
 median_val <- median(clean_data$Schooling, na.rm = TRUE)
 
-hist(clean_data$Schooling, breaks = 50, main = "Distribution of Schooling", xlab = "Schooling")
+hist(
+  clean_data$Schooling,
+  breaks = 50,
+  main = "Distribution of Schooling",
+  xlab = "Schooling",
+  col = "lightblue",
+  border = "white"
+)
 
 abline(v = mean_val, col = "red", lwd = 2)              #Mean in Red
 abline(v = median_val, col = "blue", lwd = 2, lty = 2)  #Median in Blue (dashed)
@@ -114,7 +135,14 @@ ggplot(clean_data, aes(x = schooling_1to5, fill = schooling_1to5)) +
 
 #We will categorize the HDI column into the official categories
 #https://hdr.undp.org/reports-and-publications/2020-human-development-report/data-readers-guide#:~:text=Human%20development%20classification
-hist(clean_data$Income.composition.of.resources, breaks = 50, main = "Distribution of HDI", xlab = "BMI")
+hist(
+  clean_data$Income.composition.of.resources,
+  breaks = 50,
+  main = "Distribution of HDI",
+  xlab = "BMI",
+  col = "lightblue",
+  border = "white"
+)
 clean_data <- clean_data %>%
   mutate(
     HDICat = case_when(
