@@ -1,10 +1,7 @@
 rm(list = ls())
 library(tidyverse)
-library(dplyr)
-library("GGally")
+library(GGally)
 library(factoextra)
-library(ggplot2)
-library(tidyr)
 
 raw_data <- read.csv("Life Expectancy Data.csv", header = TRUE, sep = ",")
 
