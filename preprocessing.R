@@ -31,10 +31,11 @@ clean_data <- raw_data %>%
   select(-all_of(cols_to_drop)) %>%
   mutate(na_count = rowSums(is.na(.))) #To check for columns with NA values
 
-#Removing countries that don't have a GDP or Thinness data
+#Removing countries that don't have a GDP
 clean_data <- clean_data %>%
   filter(Country != "Papua New Guinea") %>%
   filter(Country != "Syrian Arab Republic")
+#Removing countries without Thinness data
 clean_data <- clean_data %>%
   filter(Country != "Sudan") %>%
   filter(Country != "South Sudan")
