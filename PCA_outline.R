@@ -1,4 +1,5 @@
 source("preprocessing.R")
+library("xtable")
 
 #Select just quantitative variables
 pca_data <- clean_data %>%
@@ -21,6 +22,15 @@ round(cov(pca_data))
 pca <- prcomp(pca_data, scale. = TRUE)
 pca_named <- get_pca_var(pca)
 summary(pca)
+
+oadings <- data.frame(
+  Variable = rownames(pca$rotation),
+  pca$rotation
+)
+
+tab <- xtable(loadings, digits = 3)
+
+print(tab, file = "pca_loadings.tex", include.rownames = FALSE)
 
 #Checking Eigenvalues for Kaiser criterion
 pca$sdev^2
