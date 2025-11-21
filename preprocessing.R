@@ -13,46 +13,38 @@ wb_pop <- wb_data("SP.POP.TOTL", start_date = 2015, end_date = 2015) %>%
 
 clean_data <- raw_data %>%
   filter(Year == 2015) %>%
-  mutate(na_count = rowSums(is.na(.))) %>%
-  arrange(na_count) %>%
   distinct(Country, .keep_all = TRUE) %>%
   mutate(
     iso3c = countrycode(Country, origin = "country.name", destination = "iso3c")
   ) %>%
   left_join(wb_pop, by = "iso3c") %>%
   mutate(Population = Population_Clean) %>% #Overwrite the bad population column
-  select(-Population_Clean, -iso3c) #Remove helper columns
+  select(-Population_Clean, -iso3c) %>% #Remove helper columns
+  filter(Population >= 100000) #Filtering out small countries
 
-#Dropping columns that won't be used in analysis
-cols_to_drop <- c(
-  "Year",
-  "Alcohol",
-  "Hepatitis.B",
-  "Measles",
-  "BMI",
-  "Total.expenditure",
-  "Diphtheria",
-  "HIV.AIDS",
-  "na_count",
-  "percentage.expenditure",
-  "infant.deaths"
-)
+  #Dropping columns that won't be used in analysis
+  cols_to_drop <- c(
+    "Year",
+    "Alcohol",
+    "Hepatitis.B",
+    "Measles",
+    "BMI",
+    "Total.expenditure",
+    "Diphtheria",
+    "HIV.AIDS",
+    "percentage.expenditure",
+    "infant.deaths"
+  )
 clean_data <- clean_data %>%
-  filter(Population >= 100000) %>% #Filtering out small countries
   select(-all_of(cols_to_drop)) %>%
   mutate(na_count = rowSums(is.na(.))) #To check for columns with NA values
 
-#Removing countries that don't have a GDP
-clean_data <- clean_data %>%
-  filter(Country != "Papua New Guinea") %>%
-  filter(Country != "Syrian Arab Republic")
-#Removing countries without Thinness data
-clean_data <- clean_data %>%
-  filter(Country != "Sudan") %>%
-  filter(Country != "South Sudan")
-
 #Check for NAs
 colSums(is.na(clean_data))
+
+#Removing countries that don't have a GDP or other critical data
+clean_data <- clean_data %>%
+  filter(na_count == 0)
 
 #We will combine Thinness data in a single variable by using a simple mean
 clean_data <- clean_data %>%
