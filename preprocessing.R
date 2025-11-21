@@ -2,15 +2,26 @@ rm(list = ls())
 library(tidyverse)
 library(GGally)
 library(factoextra)
+library(wbstats)     # install.packages("wbstats")
+library(countrycode) # install.packages("countrycode")
 
 raw_data <- read.csv("Life Expectancy Data.csv", header = TRUE, sep = ",")
 
-#We will focus only on the data for the year 2015
-raw_data <- raw_data %>%
+#Getting clean 2015 Population data from World Bank
+wb_pop <- wb_data("SP.POP.TOTL", start_date = 2015, end_date = 2015) %>%
+  select(iso3c, Population_Clean = SP.POP.TOTL)
+
+clean_data <- raw_data %>%
   filter(Year == 2015) %>%
   mutate(na_count = rowSums(is.na(.))) %>%
   arrange(na_count) %>%
-  distinct(Country, .keep_all = TRUE)
+  distinct(Country, .keep_all = TRUE) %>%
+  mutate(
+    iso3c = countrycode(Country, origin = "country.name", destination = "iso3c")
+  ) %>%
+  left_join(wb_pop, by = "iso3c") %>%
+  mutate(Population = Population_Clean) %>% #Overwrite the bad population column
+  select(-Population_Clean, -iso3c) #Remove helper columns
 
 #Dropping columns that won't be used in analysis
 cols_to_drop <- c(
@@ -26,7 +37,7 @@ cols_to_drop <- c(
   "percentage.expenditure",
   "infant.deaths"
 )
-clean_data <- raw_data %>%
+clean_data <- clean_data %>%
   filter(Population >= 100000) %>% #Filtering out small countries
   select(-all_of(cols_to_drop)) %>%
   mutate(na_count = rowSums(is.na(.))) #To check for columns with NA values
