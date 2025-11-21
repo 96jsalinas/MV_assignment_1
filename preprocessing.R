@@ -2,8 +2,8 @@ rm(list = ls())
 library(tidyverse)
 library(GGally)
 library(factoextra)
-library(wbstats)     # install.packages("wbstats")
-library(countrycode) # install.packages("countrycode")
+library(wbstats)
+library(countrycode)
 
 raw_data <- read.csv("Life Expectancy Data.csv", header = TRUE, sep = ",")
 
